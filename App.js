@@ -1,34 +1,64 @@
 import * as React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, Image, View, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import HomeScreen from './src/screens/HomeScreen';
-
-function DetailsScreen({ navigation }) {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Details Screen</Text>
-      <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
-      <Button title="Go back" onPress={() => navigation.goBack()} />
-    </View>
-  );
-}
+import CreatePostScreen from './src/components/CreatePostComponent';
+import DetailsScreen from './src/screens/DetailsScreen';
+import ProfileScreen from './src/screens/ProfileScreen';
 
 const Stack = createNativeStackNavigator();
+
+function LogoTitle() {
+  return (
+    <Image
+      style={{ width: 50, height: 50 }}
+      source={require('./assets/favicon.png')}
+    />
+  );
+}
 
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: '#00d5d8',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}
+      >
 
-        <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'The HOME' }}>
+        <Stack.Screen name="Home" component={HomeScreen} options={{ 
+          title: 'The HOME',
+          headerStyle: {
+            backgroundColor: '#ff96b6',
+          },
+          }}>
           {/* A REVOIR PLUS TARD */}
           {/* {(props) => <HomeScreen {...props} extraData={someData} />} */}
         </Stack.Screen>
+        <Stack.Screen name="CreatePost" component={CreatePostScreen} />
 
-        <Stack.Screen name="Details" component={DetailsScreen} />
+        <Stack.Screen 
+        name="Details" 
+        component={DetailsScreen} 
+        options={
+            { headerTitle: () => <LogoTitle/> }
+        }/>
+
+        <Stack.Screen
+          name="Profile"
+          component={ProfileScreen}
+        />
+
+        
 
       </Stack.Navigator>
     </NavigationContainer>
