@@ -23,19 +23,13 @@ function LogoTitle() {
   );
 }
 
-const HomeStack = createNativeStackNavigator();
-function HomeStackScreen() {
- return (
-  <HomeStack.Navigator>
-    <HomeStack.Screen name="Home" component={HomeScreen} options={{ 
-      title: 'The HOME',
-      headerStyle: {
-        backgroundColor: '#ff96b6',
-      },
-      headerTitle: () => <LogoTitle/>
-      }}></HomeStack.Screen>
-    <HomeStack.Screen name="Details" component={DetailsScreen} />
-  </HomeStack.Navigator>
+const ListeStack = createNativeStackNavigator();
+function ListeStackScreen() {
+  return (
+    <ListeStack.Navigator>
+      <ListeStack.Screen name="Api" component={ApiScreen} />
+      <ListeStack.Screen name="Details" component={DetailsScreen} />
+    </ListeStack.Navigator>
   );
 }
 
@@ -57,8 +51,13 @@ function App() {
         }}
       >
 
-        
-        <Tab.Screen name="Home" component={HomeStackScreen} />
+        <Tab.Screen name="Home" component={HomeScreen} options={{
+          title: 'The HOME',
+          headerStyle: {
+            backgroundColor: '#ff96b6',
+          },
+          headerTitle: () => <LogoTitle />
+        }}></Tab.Screen>
 
         <Tab.Screen name="CreatePost" component={CreatePostScreen} />
 
@@ -67,10 +66,7 @@ function App() {
           component={ProfileScreen}
         />
 
-        <Tab.Screen
-          name="Api"
-          component={ApiScreen}
-        />
+        <Tab.Screen name="Liste" component={ListeStackScreen} />
 
       </Tab.Navigator>
 
