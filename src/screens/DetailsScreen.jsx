@@ -15,9 +15,9 @@ function DetailsScreen({ route, navigation }) {
         <Button
             title="Go to Details... again"
             onPress={() =>
-            navigation.push('Details', {
-                itemId: Math.floor(Math.random() * 100),
-            })
+              navigation.push('Details', {
+                  itemId: Math.floor(Math.random() * 100),
+              })
             }
         />
         <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />

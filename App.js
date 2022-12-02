@@ -23,12 +23,25 @@ function LogoTitle() {
   );
 }
 
+const HomeStack = createNativeStackNavigator();
+function HomeStackScreen() {
+ return (
+  <HomeStack.Navigator>
+    <HomeStack.Screen name="Home" component={HomeScreen} options={{ 
+      title: 'The HOME',
+      headerStyle: {
+        backgroundColor: '#ff96b6',
+      },
+      headerTitle: () => <LogoTitle/>
+      }}></HomeStack.Screen>
+    <HomeStack.Screen name="Details" component={DetailsScreen} />
+  </HomeStack.Navigator>
+  );
+}
+
 function App() {
   return (
     <NavigationContainer>
-
-
-
 
       {/* navigateur en tabs */}
 
@@ -44,16 +57,9 @@ function App() {
         }}
       >
 
-        <Tab.Screen name="Home" component={HomeScreen} options={{ 
-          title: 'The HOME',
-          headerStyle: {
-            backgroundColor: '#ff96b6',
-          },
-          headerTitle: () => <LogoTitle/>
-          }}>
-          {/* A REVOIR PLUS TARD */}
-          {/* {(props) => <HomeScreen {...props} extraData={someData} />} */}
-        </Tab.Screen>
+        
+        <Tab.Screen name="Home" component={HomeStackScreen} />
+
         <Tab.Screen name="CreatePost" component={CreatePostScreen} />
 
         <Tab.Screen
