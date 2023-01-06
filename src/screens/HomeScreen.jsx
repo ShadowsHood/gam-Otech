@@ -13,10 +13,10 @@ function HomeScreen({ navigation, route }) {
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Text>Home Screen</Text>
-        <Button
+        {/* <Button
             title="Go to Details"
             onPress={() => navigation.navigate('Details', {itemId: Math.floor(Math.random() * 100), param1: 'it\'s the first param'})}
-        />
+        /> */}
 
         <Button
             title="Profile"

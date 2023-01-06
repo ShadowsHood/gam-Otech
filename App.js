@@ -6,10 +6,11 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import HomeScreen from './src/screens/HomeScreen';
-import CreatePostScreen from './src/components/CreatePostComponent';
 import DetailsScreen from './src/screens/DetailsScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
 import ApiScreen from './src/screens/ApiScreen';
+
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -27,7 +28,9 @@ const ListeStack = createNativeStackNavigator();
 function ListeStackScreen() {
   return (
     <ListeStack.Navigator>
-      <ListeStack.Screen name="Api" component={ApiScreen} />
+      <ListeStack.Screen name="Api" component={ApiScreen} options={{
+          headerShown: false
+        }}/>
       <ListeStack.Screen name="Details" component={DetailsScreen} />
     </ListeStack.Navigator>
   );
@@ -40,15 +43,35 @@ function App() {
       {/* navigateur en tabs */}
 
       <Tab.Navigator
-        screenOptions={{
-          headerStyle: {
-            backgroundColor: '#00d5d8',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-        }}
+        screenOptions={
+          ({ route }) => ({
+            headerStyle: {
+              backgroundColor: '#00d5d8',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            tabBarIcon: ({ focused, color, size }) => {
+              let iconName;
+
+              if (route.name === 'Home') {
+                iconName = focused ? 'ios-map' : 'ios-map-outline';
+              } 
+              else if (route.name === 'Liste') {
+                iconName = focused ? 'ios-grid' : 'ios-grid-outline';
+              }
+              else if (route.name === 'Profile') {
+                iconName = focused ? 'ios-save' : 'ios-save-outline';
+              }
+
+              // You can return any component that you like here!
+              return <Ionicons name={iconName} size={size} color={color} />;
+            },
+            tabBarActiveTintColor: 'tomato',
+            tabBarInactiveTintColor: 'gray',
+          })
+        }
       >
 
         <Tab.Screen name="Home" component={HomeScreen} options={{
@@ -59,14 +82,12 @@ function App() {
           headerTitle: () => <LogoTitle />
         }}></Tab.Screen>
 
-        <Tab.Screen name="CreatePost" component={CreatePostScreen} />
+        <Tab.Screen name="Liste" component={ListeStackScreen} />
 
         <Tab.Screen
           name="Profile"
           component={ProfileScreen}
         />
-
-        <Tab.Screen name="Liste" component={ListeStackScreen} />
 
       </Tab.Navigator>
 

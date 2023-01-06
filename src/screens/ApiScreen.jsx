@@ -1,5 +1,7 @@
-import { View, Text, ScrollView, Image, TouchableOpacity, StyleSheet, TextInput, Button } from 'react-native';
+import { View, Text, ScrollView, Image, TouchableOpacity, StyleSheet, TextInput, Button, FlatList } from 'react-native';
 import React, { useEffect, useState } from 'react';
+import {capitalize} from '../../utils/texting.js';
+import { withSafeAreaInsets } from 'react-native-safe-area-context';
 
 function ApiScreen({ navigation, route }) {
 
@@ -7,6 +9,7 @@ function ApiScreen({ navigation, route }) {
 
     
     const [pokemons, setPokemons] = useState([]);
+    const [next, setNext] = useState(null);
     const [searchfeild, setSearchfeild] = useState('');
     
     useEffect(() => {
@@ -14,12 +17,45 @@ function ApiScreen({ navigation, route }) {
     }, []);
     
     const fetchPokemons = () => {
-        fetch('https://pokeapi.co/api/v2/pokemon?limit=500&offset=20')
+        fetch('https://pokeapi.co/api/v2/pokemon?limit=20')
         .then(response => response.json())
-        .then(pokemons => setPokemons(pokemons.results));
+        .then(pokemons => {setPokemons(pokemons.results); setNext(pokemons.next)});
+    };
+    const fetchMore = ()=> {
+        if (next != null ) {
+            fetch(next)
+            .then(response => response.json())
+            .then(pokemons => {pokemons.results.map(el=>setPokemons(previous => [...previous, el]));setNext(pokemons.next)});
+            
+        }
+        
+        
     };
     
+    const renderPokemon = (pokemon, index)=>{
+        return(<TouchableOpacity
+            activeOpacity={0.5}
+            key={index}
+            style={styles.card}
+            onPress={() =>
+                navigation.navigate('Details', {
+                    pokemon: pokemon.name,
+                })
+            }>
+            <Image
+                style={{ width: 150, height: 150 }}
+                source={{
+                    uri: `https://img.pokemondb.net/sprites/omega-ruby-alpha-sapphire/dex/normal/${pokemon.name
+                        }.png`,
+                }}
+            />
+            <Text>{capitalize(pokemon.name)}</Text>
+            <Text>{pokemon.order}</Text>
+        </TouchableOpacity>);
+    };
+
     return (
+
     <View>
         <View style={styles.searchCont}>
             <TextInput
@@ -29,37 +65,17 @@ function ApiScreen({ navigation, route }) {
             value={searchfeild}
             />
         </View>
-        <ScrollView>
-            <View style={styles.container}>
-            {pokemons
+        <FlatList 
+            data={pokemons
                 .filter(pokemon =>
-                pokemon.name.toLowerCase().includes(searchfeild.toLowerCase())
+                    pokemon.name.toLowerCase().includes(searchfeild.toLowerCase())
                 )
-                .map((pokemon, index) => {
-                return (
-                    <TouchableOpacity
-                    activeOpacity={0.5}
-                    key={index}
-                    style={styles.card}
-                    onPress={() =>
-                        navigation.navigate('Details', {
-                        pokemon: pokemon.name,
-                        })
-                    }>
-                    <Image
-                        style={{width: 150, height: 150}}
-                        source={{
-                        uri: `https://img.pokemondb.net/sprites/omega-ruby-alpha-sapphire/dex/normal/${
-                            pokemon.name
-                        }.png`,
-                        }}
-                    />
-                    <Text>{pokemon.name}</Text>
-                    </TouchableOpacity>
-                );
-                })}
-            </View>
-        </ScrollView>
+            } 
+            renderItem={({item, index})=>renderPokemon(item, index)} 
+            numColumns={2}
+            onEndReached={()=>fetchMore()}
+            onEndReachedThreshold={0.5}
+        />
     </View>
     );
 }
@@ -83,11 +99,14 @@ const styles = StyleSheet.create({
       marginVertical: 10,
     },
     searchCont: {
-      position: 'absolute',
-      marginBottom: 70,
-      left: '20%',
+      paddingBottom: 10,
+      width: '100%',
       zIndex: 1,
-      marginTop: 10,
+      paddingTop: 10,
+      display: 'flex',
+      alignItems: 'center',
+      backgroundColor: 'white',
+      boxShadow: '0px 5px 5px red',
     },
     searchfeild: {
       height: 40,
