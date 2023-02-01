@@ -9,7 +9,7 @@ function ProfileScreen({ navigation, route }) {
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             <Text>Profile Screen</Text>
             <Button title="Favorite" onPress={() => navigation.navigate('Favorite')} />
-            <TextInput
+            {/* <TextInput
                 multiline
                 placeholder="What's on your mind?"
                 style={{ height: 200, padding: 10, backgroundColor: 'white' }}
@@ -19,7 +19,7 @@ function ProfileScreen({ navigation, route }) {
             <Button
                 title="Update the title"
                 onPress={() => navigation.setOptions({ title: theText })}
-            />
+            /> */}
         </View>
     );
 }

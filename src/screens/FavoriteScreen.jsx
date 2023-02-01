@@ -6,26 +6,34 @@ import {saveFav, getFav, removeFav} from '../../utils/storage.js';
 function FavoriteScreen({ navigation, route }) {
 
     const [theText, setText] = React.useState('');
+    const [rez, setRez] = useState([]);
     const [favoris, setFavoris] = useState([]);
 
     const fetchFavoris = () => {
-        getFav().then(rez => {
+        getFav().then(rez => {           
+            setRez(rez);
+        })
+    }
+    const appendFavoris = () => {
             let favoris = []
             rez.forEach(pokemonId => {
                 fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`)
                 .then(res => res.json())
-                .then(details => favoris.push(details));
+                // .then(details => {return [...favoris,details]}).then(res=>{console.log(res[0].name);setFavoris(res)})
+                .then(details => favoris.push(details)).then(setFavoris(favoris))
             })
-            console.log(favoris)
-            setFavoris(favoris)
-        })
+           
     }
+
     useEffect(() => {
         fetchFavoris();
     }, []);
+    useEffect(() => {
+        if (rez.length > 0) appendFavoris();
+    }, [rez.length]);
 
     const renderPokemon = (pokemon, index)=>{
-        console.log(pokemon)
+        //console.log(pokemon)
         return(<TouchableOpacity
             activeOpacity={0.5}
             key={index}
@@ -54,8 +62,6 @@ function FavoriteScreen({ navigation, route }) {
                 data={favoris}
                 renderItem={({item, index})=>renderPokemon(item, index)}
                 numColumns={2}
-                onEndReached={()=>fetchMore()}
-                onEndReachedThreshold={0.5}
             />
         </View>
     );

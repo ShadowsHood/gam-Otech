@@ -20,25 +20,31 @@ function DetailsScreen({ route, navigation }) {
         .then(res => res.json())
         .then(details => setDetails(details));
     };
-    
+
+    const getFavoris = () => {
+      getFav().then(rez => {
+        setFavoris(rez)
+      })
+    }
+
+    const displayFavoris = () => {
+      if (details.length > 0) {
+        getFav().then(rez => {
+          setIsFavoris(rez.find(el => el == details.id))
+        })
+      }
+    }
+
     useEffect(() => {
       fetchPokemonDetails();
     }, []);
 
     useEffect(() => {
-      getFav().then(rez => {
-        setFavoris(rez)
-      })
+      getFavoris();
     }, []);
 
     useEffect(() => {
-      if (details.length > 0) {
-        console.log(' ---- ',details.id)
-        console.log(' -------------- ',details.length)
-        getFav().then(rez => {
-          setIsFavoris(rez.find(el => el == details.id))
-        })
-      }
+      displayFavoris();
     }, [details.length]);
     
 
