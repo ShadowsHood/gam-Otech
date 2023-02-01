@@ -11,12 +11,14 @@ function ApiScreen({ navigation, route }) {
     const [pokemons, setPokemons] = useState([]);
     const [next, setNext] = useState(null);
     const [searchfeild, setSearchfeild] = useState('');
+    // const [request, setRequest] = useState([]);
     
     useEffect(() => {
         fetchPokemons();
     }, []);
     
     const fetchPokemons = () => {
+        // fetch('https://pokeapi.co/api/v2/pokemon?limit=151')
         fetch('https://pokeapi.co/api/v2/pokemon?limit=20')
         .then(response => response.json())
         .then(pokemons => {setPokemons(pokemons.results); setNext(pokemons.next)});
@@ -26,10 +28,7 @@ function ApiScreen({ navigation, route }) {
             fetch(next)
             .then(response => response.json())
             .then(pokemons => {pokemons.results.map(el=>setPokemons(previous => [...previous, el]));setNext(pokemons.next)});
-            
         }
-        
-        
     };
     
     const renderPokemon = (pokemon, index)=>{
@@ -54,6 +53,12 @@ function ApiScreen({ navigation, route }) {
         </TouchableOpacity>);
     };
 
+    // const getRequest = (text) => {
+    //     fetch('https://pokeapi.co/api/v2/pokemon?limit=20')
+    //     .then(response => response.json())
+    //     .then(pokemons => {setPokemons(pokemons.results); setNext(pokemons.next)});
+    // };
+
     return (
 
     <View>
@@ -70,7 +75,7 @@ function ApiScreen({ navigation, route }) {
                 .filter(pokemon =>
                     pokemon.name.toLowerCase().includes(searchfeild.toLowerCase())
                 )
-            } 
+            }
             renderItem={({item, index})=>renderPokemon(item, index)} 
             numColumns={2}
             onEndReached={()=>fetchMore()}

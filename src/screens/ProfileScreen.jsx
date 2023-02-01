@@ -8,7 +8,7 @@ function ProfileScreen({ navigation, route }) {
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             <Text>Profile Screen</Text>
-            <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
+            <Button title="Favorite" onPress={() => navigation.navigate('Favorite')} />
             <TextInput
                 multiline
                 placeholder="What's on your mind?"

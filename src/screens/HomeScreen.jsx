@@ -22,12 +22,6 @@ function HomeScreen({ navigation, route }) {
             title="Profile"
             onPress={() => navigation.navigate('Profile')}
         />
-
-        <Button
-            title="Create post"
-            onPress={() => navigation.navigate('CreatePost')}
-        />
-        <Text style={{ margin: 10 }}>Post: {route.params?.post}</Text>
         
         </View>
     );

@@ -1,6 +1,7 @@
-import { View, Text, Image, StyleSheet, TextInput, Button } from 'react-native';
+import { Pressable, View, Text, Image, StyleSheet, TextInput, Button, Icon } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import {capitalize} from '../../utils/texting.js';
+import {saveFav, getFav, removeFav} from '../../utils/storage.js';
 
 
 function DetailsScreen({ route, navigation }) {
@@ -9,10 +10,8 @@ function DetailsScreen({ route, navigation }) {
     navigation.setOptions({ title: capitalize(pokemon) });
 
     const [details, setDetails] = useState([]);
-
-    useEffect(() => {
-      fetchPokemonDetails();
-    }, []);
+    const [isFavoris, setIsFavoris] = useState([]);
+    const [favoris, setFavoris] = useState([]);
 
     const fetchPokemonDetails = () => {
       // console.log(route.params)
@@ -21,7 +20,29 @@ function DetailsScreen({ route, navigation }) {
         .then(res => res.json())
         .then(details => setDetails(details));
     };
+    
+    useEffect(() => {
+      fetchPokemonDetails();
+    }, []);
 
+    useEffect(() => {
+      getFav().then(rez => {
+        setFavoris(rez)
+      })
+    }, []);
+
+    useEffect(() => {
+      if (details.length > 0) {
+        console.log(' ---- ',details.id)
+        console.log(' -------------- ',details.length)
+        getFav().then(rez => {
+          setIsFavoris(rez.find(el => el == details.id))
+        })
+      }
+    }, [details.length]);
+    
+
+    
     return details.name ? (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Image
@@ -32,6 +53,7 @@ function DetailsScreen({ route, navigation }) {
             }.png`,
           }}
         />
+        <Text style={styles.text}>{JSON.stringify(details.id)}</Text>
         <Text style={styles.text}>{capitalize(details.name)}</Text>
         <Text style={styles.text}>Height: {details.height}</Text>
         <Text style={styles.text}>Weight: {details.weight}</Text>
@@ -39,6 +61,19 @@ function DetailsScreen({ route, navigation }) {
           Ability: {details.abilities[0].ability.name}
         </Text>
         <Text style={styles.text}>Type: {details.types[0].type.name}</Text>
+
+        {/*Favoris*/}
+        <Pressable onPress={() => saveFav(details.id)}>
+          <Icon
+            name={isFavoris ? "heart" : "heart-outline"}
+            // size={60}
+            // style={{marginTop: 15}}
+            color={isFavoris ? "tomato" : "gray"}
+          />
+        </Pressable>
+        {/* <Button title="Add to favorite" onPress={() => saveFav(details.id)} /> */}
+        <Button title="Remove all favorite" onPress={() => removeFav()} />
+        <Text style={styles.text}>{favoris}</Text>
       </View>
     ):(
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>

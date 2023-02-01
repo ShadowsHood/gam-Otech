@@ -9,6 +9,7 @@ import HomeScreen from './src/screens/HomeScreen';
 import DetailsScreen from './src/screens/DetailsScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
 import ApiScreen from './src/screens/ApiScreen';
+import FavoriteScreen from './src/screens/FavoriteScreen';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -33,6 +34,18 @@ function ListeStackScreen() {
         }}/>
       <ListeStack.Screen name="Details" component={DetailsScreen} />
     </ListeStack.Navigator>
+  );
+}
+
+const ProfileStack = createNativeStackNavigator();
+function ProfileStackScreen() {
+  return (
+    <ProfileStack.Navigator>
+      <ProfileStack.Screen name="ProfileInfo" component={ProfileScreen} options={{
+          headerShown: false
+        }}/>
+      <ProfileStack.Screen name="Favorite" component={FavoriteScreen} />
+    </ProfileStack.Navigator>
   );
 }
 
@@ -75,7 +88,7 @@ function App() {
       >
 
         <Tab.Screen name="Home" component={HomeScreen} options={{
-          title: 'The HOME',
+          title: 'Home',
           headerStyle: {
             backgroundColor: '#ff96b6',
           },
@@ -86,7 +99,7 @@ function App() {
 
         <Tab.Screen
           name="Profile"
-          component={ProfileScreen}
+          component={ProfileStackScreen}
         />
 
       </Tab.Navigator>
