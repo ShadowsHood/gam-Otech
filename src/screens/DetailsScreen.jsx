@@ -47,48 +47,75 @@ function DetailsScreen({ route, navigation }) {
       displayFavoris();
     }, [details.length]);
     
-
     
     return details.name ? (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      // <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <View style={{ flex: 1, alignItems: 'center', paddingTop: 30}}>
+
         <Image
-          style={styles.image}
-          source={{
-            uri: `https://img.pokemondb.net/sprites/omega-ruby-alpha-sapphire/dex/normal/${
-              details.name
-            }.png`,
-          }}
+            style={styles.image}
+            source={{
+                uri: `https://img.pokemondb.net/sprites/omega-ruby-alpha-sapphire/dex/normal/${details.name}.png`,
+            }}
         />
-        <Text style={styles.text}>{JSON.stringify(details.id)}</Text>
-        <Text style={styles.text}>{capitalize(details.name)}</Text>
-        <Text style={styles.text}>Height: {details.height}</Text>
-        <Text style={styles.text}>Weight: {details.weight}</Text>
-        <Text style={styles.text}>
+        <Text style={styles.number}>N°{JSON.stringify(details.id)}</Text>
+        <Text style={styles.name}>{capitalize(details.name)}</Text>
+        <View style={{display: 'flex', flexDirection: 'row',}}>
+          <Text style={styles.text}>Height: {details.height}</Text>
+          <Text style={styles.text}>Weight: {details.weight}</Text>
+        </View>
+        {/* <Text style={styles.text}>
           Ability: {details.abilities[0].ability.name}
-        </Text>
+        </Text> */}
         <Text style={styles.text}>Type: {details.types[0].type.name}</Text>
 
-        {/*Favoris*/}
-        <Pressable onPress={() => saveFav(details.id)}>
-          <Icon
-            name={isFavoris ? "heart" : "heart-outline"}
-            // size={60}
-            // style={{marginTop: 15}}
-            color={isFavoris ? "tomato" : "gray"}
-          />
-        </Pressable>
-        {/* <Button title="Add to favorite" onPress={() => saveFav(details.id)} /> */}
-        <Button title="Remove all favorite" onPress={() => removeFav()} />
-        <Text style={styles.text}>{favoris}</Text>
+          <View style={styles.separator} />
+        <Button title="Add to favorite" onPress={() => saveFav(details.id)} color="#0e1536"/>
+          <View style={styles.separator} />
+        <Button title="Remove all favorite" onPress={() => removeFav()} color="#0e1536"/>
+        {/* <Text style={styles.text}>{favoris.name}</Text> */}
       </View>
     ):(
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Text>An error has occured</Text>
-        <Button title="Go back" onPress={() => navigation.goBack()} />
+        <Button title="Go back" onPress={() => navigation.goBack()} color="#0e1536"/>
       </View>
     )
 }
 
 export default DetailsScreen
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  image: {
+    width: 300,
+    height: 300,
+    backgroundColor: 'white',
+    borderRadius: 200
+  },
+  number: {
+    position: 'absolute', 
+    top: 280, 
+    fontWeight: 'bold', 
+    color: 'lightgrey', 
+    fontSize: 20,
+  },
+  name: {
+    fontWeight: 'bold',
+    fontSize: 25,
+    marginTop: 15,
+    marginBottom: 15,
+  },
+  text: {
+    borderColor: '#0e1536',
+    borderWidth: 3,
+    paddingLeft: 15,
+    paddingRight: 10,
+    paddingTop: 5,
+    paddingBottom: 2.5,
+    marginBottom: 10,
+    marginHorizontal: 5,
+  },
+  separator: {
+    marginVertical: 5,
+  },
+})

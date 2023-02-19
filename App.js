@@ -12,9 +12,11 @@ import ApiScreen from './src/screens/ApiScreen';
 import FavoriteScreen from './src/screens/FavoriteScreen';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useFonts } from 'expo-font';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+const color = '#e90015';
 
 function LogoTitle() {
   return (
@@ -50,6 +52,11 @@ function ProfileStackScreen() {
 }
 
 function App() {
+
+  const font = useFonts({
+    Montserrat: require('./assets/fonts/DotGothic16-Regular.ttf'),
+  });
+
   return (
     <NavigationContainer>
 
@@ -59,7 +66,7 @@ function App() {
         screenOptions={
           ({ route }) => ({
             headerStyle: {
-              backgroundColor: '#00d5d8',
+              backgroundColor: color,
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -74,15 +81,23 @@ function App() {
               else if (route.name === 'Liste') {
                 iconName = focused ? 'ios-grid' : 'ios-grid-outline';
               }
-              else if (route.name === 'Profile') {
+              else if (route.name === 'Profil') {
                 iconName = focused ? 'ios-save' : 'ios-save-outline';
               }
 
               // You can return any component that you like here!
               return <Ionicons name={iconName} size={size} color={color} />;
             },
-            tabBarActiveTintColor: 'tomato',
-            tabBarInactiveTintColor: 'gray',
+            style: {
+              backgroundColor: color,//color you want to change
+              // fontFamily: 'DotGothic16',
+              borderTopWidth: 0
+            },
+            tabBarActiveTintColor: 'white',
+            tabBarInactiveTintColor: 'black',
+            tabBarActiveBackgroundColor: color,
+            tabBarInactiveBackgroundColor: color,
+            tabBarStyle:{borderTopWidth:0}
           })
         }
       >
@@ -90,78 +105,26 @@ function App() {
         <Tab.Screen name="Home" component={HomeScreen} options={{
           title: 'Home',
           headerStyle: {
-            backgroundColor: '#ff96b6',
+            backgroundColor: color,
           },
-          headerTitle: () => <LogoTitle />
+          // headerTitle: () => <LogoTitle />
+          headerTitle: () => ''
         }}></Tab.Screen>
 
         <Tab.Screen name="Liste" component={ListeStackScreen} />
 
         <Tab.Screen
-          name="Profile"
+          name="Profil"
           component={ProfileStackScreen}
         />
 
       </Tab.Navigator>
-
-
-
-
-
-
-      {/* navigateur en stack */}
-      
-      {/* <Stack.Navigator
-        screenOptions={{
-          headerStyle: {
-            backgroundColor: '#00d5d8',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-        }}
-      >
-
-        <Stack.Screen name="Home" component={HomeScreen} options={{ 
-          title: 'The HOME',
-          headerStyle: {
-            backgroundColor: '#ff96b6',
-          },
-          }}>
-        </Stack.Screen>
-        <Stack.Screen name="CreatePost" component={CreatePostScreen} />
-
-        <Stack.Screen 
-        name="Details" 
-        component={DetailsScreen} 
-        options={
-            { headerTitle: () => <LogoTitle/> }
-        }/>
-
-        <Stack.Screen
-          name="Profile"
-          component={ProfileScreen}
-        />
-
-      </Stack.Navigator> */}
 
     </NavigationContainer>
   );
 }
 
 export default App;
-
-// export default function App() {
-//   return (
-//     <NavigationContainer>
-//       <View style={styles.container}>
-//         <Text>Open up App.js to start working on your app!</Text>
-//         <StatusBar style="auto" />
-//       </View>
-//     </NavigationContainer>
-//   );
-// }
 
 const styles = StyleSheet.create({
   container: {

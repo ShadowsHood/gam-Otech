@@ -1,6 +1,8 @@
 // RNCS RACOURCI
-import { StyleSheet, Text, TextInput, View, Button } from 'react-native';
+import { ImageBackground, StyleSheet, Text, TextInput, View, Button, Image } from 'react-native';
 import React from 'react';
+
+const Separator = () => <View style={styles.separator} />;
 
 function HomeScreen({ navigation, route }) {
     React.useEffect(() => {
@@ -10,23 +12,46 @@ function HomeScreen({ navigation, route }) {
         }
     }, [route.params?.post]);
 
-    return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Home Screen</Text>
-        {/* <Button
-            title="Go to Details"
-            onPress={() => navigation.navigate('Details', {itemId: Math.floor(Math.random() * 100), param1: 'it\'s the first param'})}
-        /> */}
 
-        <Button
-            title="Profile"
-            onPress={() => navigation.navigate('Profile')}
-        />
-        
+    return (
+        <View style={styles.body}>
+        <ImageBackground source={require('../../assets/background.png')} resizeMode="cover" style={styles.image}>
+            <Image
+            style={{ width: 355, height: 64, marginBottom: 150,}}
+            source={require('../../assets/logo.png')}
+            />
+            <Button
+                color="#0e1536"
+                title="Pokedex"
+                onPress={() => navigation.navigate('Liste')}
+            />
+            <Separator />
+            <Button
+                color="#0e1536"
+                title="Profil"
+                onPress={() => navigation.navigate('Profil')}
+            />
+
+        </ImageBackground>        
         </View>
     );
 }
 
 export default HomeScreen
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    body: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    image: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
+    },
+    separator: {
+        marginVertical: 15,
+    },
+})

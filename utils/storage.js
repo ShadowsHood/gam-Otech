@@ -2,26 +2,28 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const saveFav = async (value) => {
     try {
-                                console.log("---------------------------")
+    console.log("---------------------------")
         const myFavoris = await AsyncStorage.getItem('Favoris')
         if (myFavoris == null) {
-            let newFavoris = []
-            newFavoris.push(value)
-            AsyncStorage.setItem('Favoris', JSON.stringify(newFavoris))
+            let brandNewFavoris = []
+            brandNewFavoris.push(value)
+    console.log("brandNewFavoris : ",brandNewFavoris)
+            AsyncStorage.setItem('Favoris', JSON.stringify(brandNewFavoris))
         } else {
             if (JSON.parse(myFavoris).find((el) => el === value)) {
                 let removeItem = JSON.parse(myFavoris).filter((el) => el !== value)
-                console.log("removeItem : ",removeItem)
+    console.log("removeItem : ",removeItem)
                 AsyncStorage.setItem('Favoris', JSON.stringify(removeItem))
             } else {
                 let allFavoris = JSON.parse(myFavoris)
                 let newFavoris = [...allFavoris, value]
-                console.log("newFavoris : ",newFavoris)
+    console.log("newFavoris : ",newFavoris)
                 AsyncStorage.setItem('Favoris', JSON.stringify(newFavoris))
             }
         }
     } catch (e) {
         // saving error
+        console.log('ERROR-------------', e)
     }
 }
 

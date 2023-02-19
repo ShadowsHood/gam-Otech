@@ -5,54 +5,67 @@ import {saveFav, getFav, removeFav} from '../../utils/storage.js';
 
 function FavoriteScreen({ navigation, route }) {
 
-    const [theText, setText] = React.useState('');
-    const [rez, setRez] = useState([]);
+    // const [theText, setText] = React.useState('');
+    // const [rez, setRez] = useState([]);
     const [favoris, setFavoris] = useState([]);
 
-    const fetchFavoris = () => {
-        getFav().then(rez => {           
-            setRez(rez);
+    useEffect(() => {
+        fetching();
+    }, []);
+    
+    const fetching = async () => {
+        getFav().then(rez => {
+            setFavoris(rez)
         })
     }
-    const appendFavoris = () => {
-            let favoris = []
-            rez.forEach(pokemonId => {
-                fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`)
-                .then(res => res.json())
-                // .then(details => {return [...favoris,details]}).then(res=>{console.log(res[0].name);setFavoris(res)})
-                .then(details => favoris.push(details)).then(setFavoris(favoris))
-            })
-           
-    }
+    console.log("favoris ----- : ", favoris)
 
-    useEffect(() => {
-        fetchFavoris();
-    }, []);
-    useEffect(() => {
-        if (rez.length > 0) appendFavoris();
-    }, [rez.length]);
+    // const tableFetch = async () => {
+    //     getFav().then(async (rez) => {           
+    //         let urls = rez.reduce((Calls, pokemonId) => {
+    //         Calls.push(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`);
+    //         return Calls;
+    //         }, []);
+        
+    //         const texts = await Promise.all(
+    //         urls.map(async (url) => {
+    //             const resp = await fetch(url);
+    //             return resp.json();
+    //         })
+    //         );
+        
+    //         let dataCollected = texts.reduce((dataCollected, response) => {
+    //         dataCollected = dataCollected.concat(response.data);
+    //         return dataCollected;
+    //         }, []);
+
+    //         setFavoris(dataCollected);
+    //     });
+    // };
 
     const renderPokemon = (pokemon, index)=>{
         //console.log(pokemon)
-        return(<TouchableOpacity
-            activeOpacity={0.5}
-            key={index}
-            style={styles.card}
-            onPress={() =>
-                navigation.navigate('Details', {
-                    pokemon: pokemon.name,
-                })
-            }>
-            <Image
-                style={{ width: 150, height: 150 }}
-                source={{
-                    uri: `https://img.pokemondb.net/sprites/omega-ruby-alpha-sapphire/dex/normal/${pokemon.name
-                        }.png`,
-                }}
-            />
-            <Text>{capitalize(pokemon.name)}</Text>
-            <Text>{pokemon.order}</Text>
-        </TouchableOpacity>);
+        // return(<TouchableOpacity
+        //     activeOpacity={0.5}
+        //     key={index}
+        //     style={styles.card}
+        //     onPress={() =>
+        //         navigation.navigate('Details', {
+        //             pokemon: pokemon.name,
+        //         })
+        //     }>
+        //     <Image
+        //         style={{ width: 150, height: 150 }}
+        //         source={{
+        //             uri: `https://img.pokemondb.net/sprites/omega-ruby-alpha-sapphire/dex/normal/${pokemon.name}.png`,
+        //         }}
+        //     />
+        //     <Text>{capitalize(pokemon.name)}</Text>
+        //     <Text>{pokemon.order}</Text>
+        // </TouchableOpacity>);
+        return (
+            <Text>{pokemon}</Text>
+        )
     };
 
     return (

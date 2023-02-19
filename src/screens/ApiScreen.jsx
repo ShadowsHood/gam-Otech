@@ -49,7 +49,6 @@ function ApiScreen({ navigation, route }) {
                 }}
             />
             <Text>{capitalize(pokemon.name)}</Text>
-            <Text>{pokemon.order}</Text>
         </TouchableOpacity>);
     };
 
@@ -61,7 +60,7 @@ function ApiScreen({ navigation, route }) {
 
     return (
 
-    <View>
+    <View style={{display: 'flex', alignItems: 'center',}}>
         <View style={styles.searchCont}>
             <TextInput
             style={styles.searchfeild}
@@ -94,14 +93,16 @@ const styles = StyleSheet.create({
       flexWrap: 'wrap',
       justifyContent: 'center',
       marginTop: 30,
+      width: '100%',
     },
     card: {
       display: 'flex',
       alignItems: 'center',
-      borderBottomWidth: 1,
-      borderBottomColor: 'black',
       marginHorizontal: 20,
       marginVertical: 10,
+      backgroundColor: 'white',
+      borderRadius: 15,
+      paddingBottom: 15,
     },
     searchCont: {
       paddingBottom: 10,
