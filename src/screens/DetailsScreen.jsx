@@ -64,16 +64,13 @@ function DetailsScreen({ route, navigation }) {
           <Text style={styles.text}>Height: {details.height}</Text>
           <Text style={styles.text}>Weight: {details.weight}</Text>
         </View>
-        {/* <Text style={styles.text}>
-          Ability: {details.abilities[0].ability.name}
-        </Text> */}
+
         <Text style={styles.text}>Type: {details.types[0].type.name}</Text>
 
           <View style={styles.separator} />
-        <Button title="Add to favorite" onPress={() => saveFav(details.id)} color="#0e1536"/>
-          <View style={styles.separator} />
-        <Button title="Remove all favorite" onPress={() => removeFav()} color="#0e1536"/>
-        {/* <Text style={styles.text}>{favoris.name}</Text> */}
+        <Button title="Activer/Desactiver favoris" onPress={() => saveFav(details)} color="#0e1536"/>
+          
+
       </View>
     ):(
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -106,14 +103,14 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   text: {
-    borderColor: '#0e1536',
-    borderWidth: 3,
-    paddingLeft: 15,
-    paddingRight: 10,
-    paddingTop: 5,
-    paddingBottom: 2.5,
+    paddingHorizontal: 15,
+    paddingVertical: 5,
     marginBottom: 10,
     marginHorizontal: 5,
+    borderRadius: 30,
+    fontWeight: 'bold',
+    color: 'white',
+    backgroundColor: '#e90015',
   },
   separator: {
     marginVertical: 5,

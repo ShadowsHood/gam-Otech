@@ -46,7 +46,7 @@ function ProfileStackScreen() {
       <ProfileStack.Screen name="ProfileInfo" component={ProfileScreen} options={{
           headerShown: false
         }}/>
-      <ProfileStack.Screen name="Favorite" component={FavoriteScreen} />
+      <ProfileStack.Screen name="Favoris" component={FavoriteScreen} />
     </ProfileStack.Navigator>
   );
 }

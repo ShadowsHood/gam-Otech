@@ -12,7 +12,6 @@ function HomeScreen({ navigation, route }) {
         }
     }, [route.params?.post]);
 
-
     return (
         <View style={styles.body}>
         <ImageBackground source={require('../../assets/background.png')} resizeMode="cover" style={styles.image}>
